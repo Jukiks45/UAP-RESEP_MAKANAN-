@@ -1,0 +1,6 @@
+1|testi|banyak|banyak
+2|testi|banyak|banyak
+3|testi|banyak|banyak
+4|testi|banyak|banyak
+5|testi|banyak|banyak
+6|testi|banyak|banyak

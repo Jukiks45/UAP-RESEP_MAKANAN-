@@ -9,7 +9,7 @@ public class RecipeApp {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Aplikasi Resep Makanan");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 500);
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Full screen
             frame.setContentPane(new MainMenuPanel(frame));
             frame.setVisible(true);
         });
