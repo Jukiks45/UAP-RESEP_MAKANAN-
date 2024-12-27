@@ -65,6 +65,13 @@ public class ViewRecipesPanel extends JPanel {
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         cardPanel.add(nameLabel, BorderLayout.NORTH);
 
+        // Image
+        if (recipe.getImagePath() != null) {
+            ImageIcon imageIcon = new ImageIcon(recipe.getImagePath());
+            JLabel imageLabel = new JLabel(new ImageIcon(imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
+            cardPanel.add(imageLabel, BorderLayout.CENTER);
+        }
+        
         // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
@@ -122,4 +129,5 @@ public class ViewRecipesPanel extends JPanel {
             }
         });
     }
+
 }

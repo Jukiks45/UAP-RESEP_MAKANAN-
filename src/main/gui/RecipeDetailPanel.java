@@ -23,12 +23,21 @@ public class RecipeDetailPanel extends JPanel {
         add(titleLabel, BorderLayout.NORTH);
 
         // Content Panel
-        JPanel contentPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(new Color(250, 250, 250));
 
-        contentPanel.add(createLabel("Bahan-Bahan:", recipe.getIngredients()));
-        contentPanel.add(createLabel("Langkah-Langkah:", recipe.getSteps()));
+        // Add image if available
+        if (recipe.getImagePath() != null) {
+            JLabel imageLabel = createImageLabel(recipe.getImagePath());
+            contentPanel.add(imageLabel, BorderLayout.NORTH);
+        }
 
+        JPanel detailsPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        detailsPanel.setBackground(new Color(250, 250, 250));
+        detailsPanel.add(createLabel("Bahan-Bahan:", recipe.getIngredients()));
+        detailsPanel.add(createLabel("Langkah-Langkah:", recipe.getSteps()));
+
+        contentPanel.add(detailsPanel, BorderLayout.CENTER);
         add(contentPanel, BorderLayout.CENTER);
 
         // Buttons
@@ -65,6 +74,15 @@ public class RecipeDetailPanel extends JPanel {
         buttonPanel.add(deleteButton);
         buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private JLabel createImageLabel(String imagePath) {
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+        Image scaledImage = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        return imageLabel;
     }
 
     private JPanel createLabel(String title, String content) {

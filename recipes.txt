@@ -1,6 +1,8 @@
-1|testi|banyak|banyak
-2|testi|banyak|banyak
-3|testi|banyak|banyak
-4|testi|banyak|banyak
-5|testi|banyak|banyak
-6|testi|banyak|banyak
+1|testi|banyak|banyak|
+2|testi|banyak|banyak|
+3|testi|banyak|banyak|
+4|testi|banyak|banyak|
+5|testi|banyak|banyak|
+6|testi|banyak|banyak|
+7|1|1|1|D:\Blobs\1709548875877824.png
+8|test|test|test|D:\Blobs\1709586896034669.png

@@ -47,6 +47,36 @@ public class AddRecipePanel extends JPanel {
 
         add(formPanel, BorderLayout.CENTER);
 
+        // Image selection and preview
+        JLabel imageLabel = createStyledLabel("Gambar Resep:");
+        JButton imageButton = new JButton("Pilih Gambar");
+        JLabel imagePathLabel = new JLabel("Belum ada gambar");
+        JLabel imagePreview = new JLabel(); // To display the image preview
+        imagePreview.setHorizontalAlignment(SwingConstants.CENTER);
+        imagePreview.setPreferredSize(new Dimension(200, 200));
+        imagePreview.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+
+        imageButton.addActionListener(event -> {
+            JFileChooser fileChooser = new JFileChooser();
+            if (fileChooser.showOpenDialog(parentFrame) == JFileChooser.APPROVE_OPTION) {
+                String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
+                imagePathLabel.setText(selectedPath);
+
+                // Set image preview
+                ImageIcon icon = new ImageIcon(selectedPath);
+                Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                imagePreview.setIcon(new ImageIcon(scaledImage));
+            }
+        });
+
+        addFormElement(formPanel, imageLabel, imageButton, gbc, 3);
+        addFormElement(formPanel, new JLabel(""), imagePathLabel, gbc, 4);
+        gbc.gridy = 5;
+        gbc.gridx = 1;
+        formPanel.add(imagePreview, gbc);
+
+        add(formPanel, BorderLayout.CENTER);
+
         // Tombol Simpan dan Kembali
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(250, 250, 250));
@@ -57,13 +87,14 @@ public class AddRecipePanel extends JPanel {
             String name = nameField.getText().trim();
             String ingredients = ingredientsArea.getText().trim();
             String steps = stepsArea.getText().trim();
+            String imagePath = imagePathLabel.getText().equals("Belum ada gambar") ? null : imagePathLabel.getText();
 
             if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
                 JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            Recipe recipe = new Recipe(recipes.size() + 1, name, ingredients, steps);
+            Recipe recipe = new Recipe(recipes.size() + 1, name, ingredients, steps, imagePath);
             recipes.add(recipe);
             FileHandler.saveRecipes(recipes);
             JOptionPane.showMessageDialog(parentFrame, "Resep berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
@@ -77,6 +108,8 @@ public class AddRecipePanel extends JPanel {
         buttonPanel.add(saveButton);
         buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.SOUTH);
+
+
     }
 
     private JLabel createStyledLabel(String text) {
