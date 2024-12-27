@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+Test set: org.example.gui.AddRecipePanelTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.921 s <<< FAILURE! - in org.example.gui.AddRecipePanelTest
+testSaveButtonDenganFieldKosong  Time elapsed: 1.901 s  <<< ERROR!
+org.mockito.exceptions.base.MockitoException: 
+
+Mockito cannot mock this class: class javax.swing.JFrame.
+
+If you're not sure why you're getting this error, please report to the mailing list.
+
+
+Java               : 22
+JVM vendor name    : Oracle Corporation
+JVM vendor version : 22.0.1+8-16
+JVM name           : Java HotSpot(TM) 64-Bit Server VM
+JVM version        : 22.0.1+8-16
+JVM info           : mixed mode, sharing
+OS name            : Windows 11
+OS version         : 10.0
+
+
+You are seeing this disclaimer because Mockito is configured to create inlined mocks.
+You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
+
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [interface javax.swing.RootPaneContainer, interface java.awt.MenuContainer, interface javax.accessibility.Accessible, interface javax.swing.TransferHandler$HasGetTransferHandler, class java.awt.Container, interface javax.swing.WindowConstants, class java.awt.Window, class javax.swing.JFrame, class java.awt.Frame, class java.lang.Object, class java.awt.Component, interface java.awt.image.ImageObserver, interface java.io.Serializable]
+	at org.example.gui.AddRecipePanelTest.setUp(AddRecipePanelTest.java:28)
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [interface javax.swing.RootPaneContainer, interface java.awt.MenuContainer, interface javax.accessibility.Accessible, interface javax.swing.TransferHandler$HasGetTransferHandler, class java.awt.Container, interface javax.swing.WindowConstants, class java.awt.Window, class javax.swing.JFrame, class java.awt.Frame, class java.lang.Object, class java.awt.Component, interface java.awt.image.ImageObserver, interface java.io.Serializable]
+	at org.example.gui.AddRecipePanelTest.setUp(AddRecipePanelTest.java:28)
+Caused by: java.lang.IllegalStateException: 
+
+Byte Buddy could not instrument all classes within the mock's type hierarchy
+
+This problem should never occur for javac-compiled classes. This problem has been observed for classes that are:
+ - Compiled by older versions of scalac
+ - Classes that are part of the Android distribution
+	at org.example.gui.AddRecipePanelTest.setUp(AddRecipePanelTest.java:28)
+Caused by: java.lang.IllegalArgumentException: Unsupported class file major version 66
+	at org.example.gui.AddRecipePanelTest.setUp(AddRecipePanelTest.java:28)
+

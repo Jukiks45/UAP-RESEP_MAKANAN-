@@ -63,7 +63,11 @@ public class UpdateRecipePanel extends JPanel {
                     String steps = stepsArea.getText().trim();
 
                     if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
-                        JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+                        if (parentFrame != null) {
+                            JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            System.out.println("parentFrame bernilai null. Dialog tidak ditampilkan.");
+                        }
                         return;
                     }
 
@@ -72,10 +76,18 @@ public class UpdateRecipePanel extends JPanel {
                     recipeToUpdate.setSteps(steps);
 
                     FileHandler.saveRecipes(recipes);
-                    JOptionPane.showMessageDialog(parentFrame, "Resep berhasil diperbarui!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    if (parentFrame != null) {
+                        JOptionPane.showMessageDialog(parentFrame, "Resep berhasil diperbarui!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        System.out.println("parentFrame bernilai null. Dialog tidak ditampilkan.");
+                    }
                     onBack.run();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat menyimpan data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    if (parentFrame != null) {
+                        JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat menyimpan data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        System.out.println("parentFrame bernilai null. Dialog tidak ditampilkan.");
+                    }
                 }
             });
 
@@ -83,13 +95,21 @@ public class UpdateRecipePanel extends JPanel {
             styleButton(backButton, new Color(204, 0, 0), new Color(153, 0, 0));
             backButton.addActionListener(e -> {
                 try {
-                    // Replace the current panel with ViewRecipesPanel
-                    parentFrame.getContentPane().removeAll();
-                    parentFrame.getContentPane().add(new RecipeDetailPanel(parentFrame, recipes, recipeToUpdate, onBack));
-                    parentFrame.revalidate();
-                    parentFrame.repaint();
+                    if (parentFrame != null) {
+                        // Replace the current panel with ViewRecipesPanel
+                        parentFrame.getContentPane().removeAll();
+                        parentFrame.getContentPane().add(new RecipeDetailPanel(parentFrame, recipes, recipeToUpdate, onBack));
+                        parentFrame.revalidate();
+                        parentFrame.repaint();
+                    } else {
+                        System.out.println("parentFrame bernilai null. Panel tidak diperbarui.");
+                    }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(parentFrame, "Error while going back: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    if (parentFrame != null) {
+                        JOptionPane.showMessageDialog(parentFrame, "Error while going back: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        System.out.println("parentFrame bernilai null. Dialog tidak ditampilkan.");
+                    }
                 }
             });
 
@@ -97,7 +117,11 @@ public class UpdateRecipePanel extends JPanel {
             buttonPanel.add(backButton);
             add(buttonPanel, BorderLayout.SOUTH);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat memuat panel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            if (parentFrame != null) {
+                JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat memuat panel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                System.out.println("parentFrame bernilai null. Dialog tidak ditampilkan.");
+            }
         }
     }
 
