@@ -13,9 +13,21 @@ public class ViewRecipesPanel extends JPanel {
     private List<Recipe> recipes;
 
     public ViewRecipesPanel(JFrame parentFrame, List<Recipe> recipes) {
+        if (parentFrame == null) {
+            throw new IllegalArgumentException("Parent frame cannot be null");
+        }
+
         this.parentFrame = parentFrame;
         this.recipes = recipes;
 
+        try {
+            initializeUI();
+        } catch (Exception ex) {
+            showErrorDialog("Terjadi kesalahan saat memuat panel: " + ex.getMessage());
+        }
+    }
+
+    private void initializeUI() {
         setLayout(new BorderLayout());
         setBackground(new Color(250, 250, 250));
 
@@ -25,27 +37,16 @@ public class ViewRecipesPanel extends JPanel {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         add(titleLabel, BorderLayout.NORTH);
 
-        if (recipes.isEmpty()) {
-            // Jika tidak ada resep, tampilkan pesan "Tidak ada resep"
-            showNoRecipesMessage();
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBackground(new Color(250, 250, 250));
+
+        if (recipes == null || recipes.isEmpty()) {
+            centerPanel.add(showNoRecipesMessage(), BorderLayout.CENTER);
         } else {
-            // Jika ada resep, tampilkan daftar resep
-            refreshGrid();
+            centerPanel.add(refreshGrid(), BorderLayout.CENTER);
         }
-    }
 
-    @SuppressWarnings("unused")
-    private void showNoRecipesMessage() {
-        JPanel noRecipesPanel = new JPanel();
-        noRecipesPanel.setLayout(new BorderLayout());
-        noRecipesPanel.setBackground(new Color(250, 250, 250));
-
-        JLabel noRecipesLabel = new JLabel("Tidak ada resep. Tambahkan resep baru!", SwingConstants.CENTER);
-        noRecipesLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        noRecipesLabel.setForeground(new Color(255, 0, 0));
-        noRecipesPanel.add(noRecipesLabel, BorderLayout.CENTER);
-
-        // Tombol Kembali
+        // Add Back Button
         JButton backButton = new JButton("Kembali");
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.setBackground(new Color(0, 102, 204));
@@ -57,36 +58,48 @@ public class ViewRecipesPanel extends JPanel {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         backButtonPanel.setBackground(new Color(250, 250, 250));
         backButtonPanel.add(backButton);
-        noRecipesPanel.add(backButtonPanel, BorderLayout.SOUTH);
 
-        removeAll(); // Clear current panel
-        add(noRecipesPanel, BorderLayout.CENTER);
-        revalidate();
-        repaint();
+        add(centerPanel, BorderLayout.CENTER);
+        add(backButtonPanel, BorderLayout.SOUTH);
     }
+
+    private JPanel showNoRecipesMessage() {
+        JPanel noRecipesPanel = new JPanel();
+        noRecipesPanel.setLayout(new BorderLayout());
+        noRecipesPanel.setBackground(new Color(250, 250, 250));
+
+        JLabel noRecipesLabel = new JLabel("Tidak ada resep. Tambahkan resep baru!", SwingConstants.CENTER);
+        noRecipesLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        noRecipesLabel.setForeground(new Color(255, 0, 0));
+        noRecipesPanel.add(noRecipesLabel, BorderLayout.CENTER);
+
+        return noRecipesPanel;
+    }
+
 
     private void goBack() {
-        // Tindakan untuk kembali ke panel sebelumnya
-        // Misalnya, kembali ke panel utama atau panel yang lebih tinggi
-        parentFrame.getContentPane().removeAll();
-        parentFrame.getContentPane().add(new MainMenuPanel(parentFrame));  // Misalnya MainPanel adalah panel utama Anda
-        parentFrame.revalidate();
-        parentFrame.repaint();
+        if (parentFrame != null) {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.getContentPane().add(new MainMenuPanel(parentFrame));
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        }
     }
 
-    private void refreshGrid() {
+    private JPanel refreshGrid() {
         JPanel gridPanel = createRecipeGrid(recipes);
         JScrollPane scrollPane = new JScrollPane(gridPanel);
         scrollPane.setBorder(null);
 
-        removeAll(); // Clear current panel
-        add(scrollPane, BorderLayout.CENTER);
-        revalidate();
-        repaint();
+        JPanel container = new JPanel(new BorderLayout());
+        container.setBackground(new Color(250, 250, 250));
+        container.add(scrollPane, BorderLayout.CENTER);
+
+        return container;
     }
 
     private JPanel createRecipeGrid(List<Recipe> recipes) {
-        JPanel gridPanel = new JPanel(new GridLayout(0, 2, 15, 15)); // 2 columns, dynamic rows
+        JPanel gridPanel = new JPanel(new GridLayout(0, 2, 15, 15));
         gridPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         gridPanel.setBackground(new Color(250, 250, 250));
 
@@ -94,32 +107,26 @@ public class ViewRecipesPanel extends JPanel {
             JPanel recipeCard = createRecipeCard(recipe);
             gridPanel.add(recipeCard);
         }
-
         return gridPanel;
     }
 
-    @SuppressWarnings("unused")
     private JPanel createRecipeCard(Recipe recipe) {
-        JPanel cardPanel = new JPanel();
-        cardPanel.setLayout(new BorderLayout());
+        JPanel cardPanel = new JPanel(new BorderLayout());
         cardPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 2));
         cardPanel.setBackground(Color.WHITE);
 
-        // Title
         JLabel nameLabel = new JLabel(recipe.getName(), SwingConstants.CENTER);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
         nameLabel.setForeground(new Color(0, 102, 204));
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         cardPanel.add(nameLabel, BorderLayout.NORTH);
 
-        // Image
         if (recipe.getImagePath() != null) {
             ImageIcon imageIcon = new ImageIcon(recipe.getImagePath());
             JLabel imageLabel = new JLabel(new ImageIcon(imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
             cardPanel.add(imageLabel, BorderLayout.CENTER);
         }
-        
-        // Button panel
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
 
@@ -146,7 +153,7 @@ public class ViewRecipesPanel extends JPanel {
             recipes.remove(recipe);
             FileHandler.saveRecipes(recipes);
             JOptionPane.showMessageDialog(parentFrame, "Resep berhasil dihapus!");
-            refreshGrid(); // Refresh the grid after deletion
+            refreshGrid();
         }
     }
 
@@ -177,4 +184,7 @@ public class ViewRecipesPanel extends JPanel {
         });
     }
 
+    private void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(parentFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }

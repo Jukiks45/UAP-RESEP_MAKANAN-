@@ -9,79 +9,96 @@ import java.awt.*;
 import java.util.List;
 
 public class UpdateRecipePanel extends JPanel {
-    @SuppressWarnings("unused")
     public UpdateRecipePanel(JFrame parentFrame, List<Recipe> recipes, Recipe recipeToUpdate, Runnable onBack) {
-        setLayout(new BorderLayout());
-        setBackground(new Color(250, 250, 250)); // Warna latar putih terang
-        setBorder(new EmptyBorder(20, 40, 20, 40)); // Margin di sekitar konten
+        try {
+            setLayout(new BorderLayout());
+            setBackground(new Color(250, 250, 250)); // Bright white background
+            setBorder(new EmptyBorder(20, 40, 20, 40)); // Margins around the content
 
-        // Judul
-        JLabel titleLabel = new JLabel("Update Resep", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
-        titleLabel.setForeground(new Color(0, 102, 204)); // Warna biru
-        titleLabel.setBorder(new EmptyBorder(10, 0, 20, 0));
-        add(titleLabel, BorderLayout.NORTH);
+            // Title
+            JLabel titleLabel = new JLabel("Update Resep", SwingConstants.CENTER);
+            titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+            titleLabel.setForeground(new Color(0, 102, 204)); // Blue color
+            titleLabel.setBorder(new EmptyBorder(10, 0, 20, 0));
+            add(titleLabel, BorderLayout.NORTH);
 
-        // Form input
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(new Color(250, 250, 250));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Margin antar elemen form
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+            // Form Input
+            JPanel formPanel = new JPanel(new GridBagLayout());
+            formPanel.setBackground(new Color(250, 250, 250));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(10, 10, 10, 10); // Margin between form elements
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Nama Resep
-        JLabel nameLabel = createStyledLabel("Nama Resep:");
-        JTextField nameField = new JTextField(recipeToUpdate.getName());
-        addFormElement(formPanel, nameLabel, nameField, gbc, 0);
+            // Recipe Name
+            JLabel nameLabel = createStyledLabel("Nama Resep:");
+            JTextField nameField = new JTextField(recipeToUpdate.getName());
+            addFormElement(formPanel, nameLabel, nameField, gbc, 0);
 
-        // Bahan-Bahan
-        JLabel ingredientsLabel = createStyledLabel("Bahan-Bahan:");
-        JTextArea ingredientsArea = createStyledTextArea();
-        ingredientsArea.setText(recipeToUpdate.getIngredients());
-        JScrollPane ingredientsScroll = new JScrollPane(ingredientsArea);
-        addFormElement(formPanel, ingredientsLabel, ingredientsScroll, gbc, 1);
+            // Ingredients
+            JLabel ingredientsLabel = createStyledLabel("Bahan-Bahan:");
+            JTextArea ingredientsArea = createStyledTextArea();
+            ingredientsArea.setText(recipeToUpdate.getIngredients());
+            JScrollPane ingredientsScroll = new JScrollPane(ingredientsArea);
+            addFormElement(formPanel, ingredientsLabel, ingredientsScroll, gbc, 1);
 
-        // Langkah-Langkah
-        JLabel stepsLabel = createStyledLabel("Langkah-Langkah:");
-        JTextArea stepsArea = createStyledTextArea(); // TextArea untuk Langkah-Langkah
-        stepsArea.setText(recipeToUpdate.getSteps());
-        JScrollPane stepsScroll = new JScrollPane(stepsArea); // Membuat scroll pada TextArea
-        addFormElement(formPanel, stepsLabel, stepsScroll, gbc, 2);
+            // Steps
+            JLabel stepsLabel = createStyledLabel("Langkah-Langkah:");
+            JTextArea stepsArea = createStyledTextArea();
+            stepsArea.setText(recipeToUpdate.getSteps());
+            JScrollPane stepsScroll = new JScrollPane(stepsArea);
+            addFormElement(formPanel, stepsLabel, stepsScroll, gbc, 2);
 
-        add(formPanel, BorderLayout.CENTER);
+            add(formPanel, BorderLayout.CENTER);
 
-        // Tombol Simpan dan Kembali
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(250, 250, 250));
+            // Save and Back Buttons
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setBackground(new Color(250, 250, 250));
 
-        JButton saveButton = new JButton("Simpan");
-        styleButton(saveButton, new Color(0, 153, 76), new Color(0, 102, 51));
-        saveButton.addActionListener(event -> {
-            String name = nameField.getText().trim();
-            String ingredients = ingredientsArea.getText().trim();
-            String steps = stepsArea.getText().trim();
+            JButton saveButton = new JButton("Simpan");
+            styleButton(saveButton, new Color(0, 153, 76), new Color(0, 102, 51));
+            saveButton.addActionListener(event -> {
+                try {
+                    String name = nameField.getText().trim();
+                    String ingredients = ingredientsArea.getText().trim();
+                    String steps = stepsArea.getText().trim();
 
-            if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
-                JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                    if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
+                        JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
-            recipeToUpdate.setName(name);
-            recipeToUpdate.setIngredients(ingredients);
-            recipeToUpdate.setSteps(steps);
+                    recipeToUpdate.setName(name);
+                    recipeToUpdate.setIngredients(ingredients);
+                    recipeToUpdate.setSteps(steps);
 
-            FileHandler.saveRecipes(recipes);
-            JOptionPane.showMessageDialog(parentFrame, "Resep berhasil diperbarui!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            onBack.run();
-        });
+                    FileHandler.saveRecipes(recipes);
+                    JOptionPane.showMessageDialog(parentFrame, "Resep berhasil diperbarui!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    onBack.run();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat menyimpan data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
 
-        JButton backButton = new JButton("Kembali");
-        styleButton(backButton, new Color(204, 0, 0), new Color(153, 0, 0));
-        backButton.addActionListener(event -> onBack.run());
+            JButton backButton = new JButton("Kembali");
+            styleButton(backButton, new Color(204, 0, 0), new Color(153, 0, 0));
+            backButton.addActionListener(e -> {
+                try {
+                    // Replace the current panel with ViewRecipesPanel
+                    parentFrame.getContentPane().removeAll();
+                    parentFrame.getContentPane().add(new RecipeDetailPanel(parentFrame, recipes, recipeToUpdate, onBack));
+                    parentFrame.revalidate();
+                    parentFrame.repaint();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(parentFrame, "Error while going back: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
 
-        buttonPanel.add(saveButton);
-        buttonPanel.add(backButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+            buttonPanel.add(saveButton);
+            buttonPanel.add(backButton);
+            add(buttonPanel, BorderLayout.SOUTH);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat memuat panel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private JLabel createStyledLabel(String text) {
@@ -92,7 +109,7 @@ public class UpdateRecipePanel extends JPanel {
     }
 
     private JTextArea createStyledTextArea() {
-        JTextArea textArea = new JTextArea(5, 20); // Menyesuaikan ukuran area
+        JTextArea textArea = new JTextArea(5, 20);
         textArea.setFont(new Font("Arial", Font.PLAIN, 16));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
