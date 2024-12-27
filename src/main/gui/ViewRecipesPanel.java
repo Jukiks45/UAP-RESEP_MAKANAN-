@@ -34,6 +34,7 @@ public class ViewRecipesPanel extends JPanel {
         }
     }
 
+    @SuppressWarnings("unused")
     private void showNoRecipesMessage() {
         JPanel noRecipesPanel = new JPanel();
         noRecipesPanel.setLayout(new BorderLayout());
@@ -97,6 +98,7 @@ public class ViewRecipesPanel extends JPanel {
         return gridPanel;
     }
 
+    @SuppressWarnings("unused")
     private JPanel createRecipeCard(Recipe recipe) {
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BorderLayout());

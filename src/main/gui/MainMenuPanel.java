@@ -13,6 +13,7 @@ public class MainMenuPanel extends JPanel {
     private JPanel cardPanel;
     private List<Recipe> recipes;
 
+    @SuppressWarnings("unused")
     public MainMenuPanel(JFrame frame) {
         this.parentFrame = frame;
         this.recipes = FileHandler.loadRecipes();

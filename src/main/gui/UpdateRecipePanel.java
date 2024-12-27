@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 public class UpdateRecipePanel extends JPanel {
+    @SuppressWarnings("unused")
     public UpdateRecipePanel(JFrame parentFrame, List<Recipe> recipes, Recipe recipeToUpdate, Runnable onBack) {
         setLayout(new BorderLayout());
         setBackground(new Color(250, 250, 250)); // Warna latar putih terang
