@@ -60,15 +60,22 @@ public class AddRecipePanel extends JPanel {
         imagePreview.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
 
         imageButton.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            if (fileChooser.showOpenDialog(parentFrame) == JFileChooser.APPROVE_OPTION) {
-                String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
-                imagePathLabel.setText(selectedPath);
+            try {
+                JFileChooser fileChooser = new JFileChooser();
+                if (fileChooser.showOpenDialog(parentFrame) == JFileChooser.APPROVE_OPTION) {
+                    String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
+                    imagePathLabel.setText(selectedPath);
 
-                // Set image preview
-                ImageIcon icon = new ImageIcon(selectedPath);
-                Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                imagePreview.setIcon(new ImageIcon(scaledImage));
+                    // Set image preview
+                    ImageIcon icon = new ImageIcon(selectedPath);
+                    Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                    imagePreview.setIcon(new ImageIcon(scaledImage));
+                }
+            } catch (Exception e) {
+                // Menangani error jika terjadi masalah saat memilih atau menampilkan gambar
+                JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat memilih gambar: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace(); // Untuk membantu debugging
             }
         });
 
@@ -87,23 +94,35 @@ public class AddRecipePanel extends JPanel {
         JButton saveButton = new JButton("Simpan");
         styleButton(saveButton, new Color(0, 153, 76), new Color(0, 102, 51));
         saveButton.addActionListener(event -> {
-            String name = nameField.getText().trim();
-            String ingredients = ingredientsArea.getText().trim();
-            String steps = stepsArea.getText().trim();
-            String imagePath = imagePathLabel.getText().equals("Belum ada gambar") ? null : imagePathLabel.getText();
+            try {
+                String name = nameField.getText().trim();
+                String ingredients = ingredientsArea.getText().trim();
+                String steps = stepsArea.getText().trim();
+                String imagePath = imagePathLabel.getText().equals("Belum ada gambar") ? null
+                        : imagePathLabel.getText();
 
-            if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
-                JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
+                // Validasi input
+                if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
+                    JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Menyimpan resep baru
+                Recipe recipe = new Recipe(recipes.size() + 1, name, ingredients, steps, imagePath);
+                recipes.add(recipe);
+                FileHandler.saveRecipes(recipes); // Menyimpan ke file
+
+                JOptionPane.showMessageDialog(parentFrame, "Resep berhasil disimpan!", "Sukses",
+                        JOptionPane.INFORMATION_MESSAGE);
+                onBack.run(); // Kembali ke panel sebelumnya
+
+            } catch (Exception e) {
+                // Menangani semua exception yang terjadi dan menampilkan pesan error
+                JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat menyimpan resep: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace(); // Untuk membantu debugging, log ke console
             }
-
-            Recipe recipe = new Recipe(recipes.size() + 1, name, ingredients, steps, imagePath);
-            recipes.add(recipe);
-            FileHandler.saveRecipes(recipes);
-            JOptionPane.showMessageDialog(parentFrame, "Resep berhasil disimpan!", "Sukses",
-                    JOptionPane.INFORMATION_MESSAGE);
-            onBack.run();
         });
 
         JButton backButton = new JButton("Kembali");
@@ -113,7 +132,6 @@ public class AddRecipePanel extends JPanel {
         buttonPanel.add(saveButton);
         buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.SOUTH);
-
     }
 
     private JLabel createStyledLabel(String text) {
