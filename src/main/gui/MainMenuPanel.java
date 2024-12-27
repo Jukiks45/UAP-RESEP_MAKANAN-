@@ -16,7 +16,17 @@ public class MainMenuPanel extends JPanel {
     @SuppressWarnings("unused")
     public MainMenuPanel(JFrame frame) {
         this.parentFrame = frame;
-        this.recipes = FileHandler.loadRecipes();
+
+        // Memuat resep dengan exception handling
+        try {
+            this.recipes = FileHandler.loadRecipes();
+        } catch (Exception e) {
+            // Jika terjadi kesalahan saat memuat resep
+            JOptionPane.showMessageDialog(parentFrame, "Terjadi kesalahan saat memuat resep: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            this.recipes = List.of(); // Jika gagal, set daftar resep menjadi kosong
+        }
 
         // Set title of the application
         parentFrame.setTitle("Aplikasi Resep Makanan");
@@ -46,11 +56,19 @@ public class MainMenuPanel extends JPanel {
 
         addRecipeButton.addActionListener(event -> cardLayout.show(cardPanel, "addRecipe"));
         viewRecipesButton.addActionListener(event -> {
-            ViewRecipesPanel viewRecipesPanel = new ViewRecipesPanel(parentFrame, recipes);
-            parentFrame.getContentPane().removeAll(); // Menghapus komponen yang ada
-            parentFrame.getContentPane().add(viewRecipesPanel); // Menambahkan panel baru
-            parentFrame.revalidate();
-            parentFrame.repaint();
+            try {
+                ViewRecipesPanel viewRecipesPanel = new ViewRecipesPanel(parentFrame, recipes);
+                parentFrame.getContentPane().removeAll(); // Menghapus komponen yang ada
+                parentFrame.getContentPane().add(viewRecipesPanel); // Menambahkan panel baru
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            } catch (Exception e) {
+                // Menangani error saat menampilkan panel Lihat Resep
+                JOptionPane.showMessageDialog(parentFrame,
+                        "Terjadi kesalahan saat menampilkan resep: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace(); // Untuk debugging
+            }
         });
 
         gbc.gridy = 1;
@@ -61,7 +79,8 @@ public class MainMenuPanel extends JPanel {
 
         // Tambahkan panel ke CardLayout
         cardPanel.add(mainMenuPanel, "mainMenu");
-        cardPanel.add(new AddRecipePanel(parentFrame, recipes, () -> cardLayout.show(cardPanel, "mainMenu")), "addRecipe");
+        cardPanel.add(new AddRecipePanel(parentFrame, recipes, () -> cardLayout.show(cardPanel, "mainMenu")),
+                "addRecipe");
 
         setLayout(new BorderLayout());
         add(cardPanel, BorderLayout.CENTER);
@@ -78,8 +97,7 @@ public class MainMenuPanel extends JPanel {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(0, 102, 51), 3),
-                BorderFactory.createEmptyBorder(10, 20, 10, 20)
-        ));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20)));
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setBackground(new Color(0, 102, 51));
