@@ -10,6 +10,7 @@ import java.util.List;
 
 public class RecipeDetailPanel extends JPanel {
 
+    @SuppressWarnings("unused")
     public RecipeDetailPanel(JFrame parentFrame, List<Recipe> recipes, Recipe recipe, Runnable onBack) {
         setLayout(new BorderLayout());
         setBackground(new Color(250, 250, 250));
