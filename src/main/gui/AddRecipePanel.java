@@ -35,15 +35,17 @@ public class AddRecipePanel extends JPanel {
 
         // Bahan-Bahan
         JLabel ingredientsLabel = createStyledLabel("Bahan-Bahan:");
-        JTextArea ingredientsArea = createStyledTextArea();
-        JScrollPane ingredientsScroll = new JScrollPane(ingredientsArea);
-        addFormElement(formPanel, ingredientsLabel, ingredientsScroll, gbc, 1);
+        JTextArea ingredientsArea = createStyledTextArea(); // Hanya JTextArea tanpa JScrollPane
+        ingredientsArea.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        ingredientsArea.setPreferredSize(new Dimension(400, 120)); // Ukuran lebar dan tinggi diperbesar
+        addFormElement(formPanel, ingredientsLabel, ingredientsArea, gbc, 1);
 
         // Langkah-Langkah
         JLabel stepsLabel = createStyledLabel("Langkah-Langkah:");
-        JTextArea stepsArea = createStyledTextArea(); // TextArea untuk Langkah-Langkah
-        JScrollPane stepsScroll = new JScrollPane(stepsArea); // Membuat scroll pada TextArea
-        addFormElement(formPanel, stepsLabel, stepsScroll, gbc, 2);
+        JTextArea stepsArea = createStyledTextArea(); // Hanya JTextArea tanpa JScrollPane
+        stepsArea.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        stepsArea.setPreferredSize(new Dimension(400, 120)); // Ukuran lebar dan tinggi diperbesar
+        addFormElement(formPanel, stepsLabel, stepsArea, gbc, 2);
 
         add(formPanel, BorderLayout.CENTER);
 
@@ -90,14 +92,16 @@ public class AddRecipePanel extends JPanel {
             String imagePath = imagePathLabel.getText().equals("Belum ada gambar") ? null : imagePathLabel.getText();
 
             if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
-                JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(parentFrame, "Semua field harus diisi!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             Recipe recipe = new Recipe(recipes.size() + 1, name, ingredients, steps, imagePath);
             recipes.add(recipe);
             FileHandler.saveRecipes(recipes);
-            JOptionPane.showMessageDialog(parentFrame, "Resep berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parentFrame, "Resep berhasil disimpan!", "Sukses",
+                    JOptionPane.INFORMATION_MESSAGE);
             onBack.run();
         });
 
@@ -109,7 +113,6 @@ public class AddRecipePanel extends JPanel {
         buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-
     }
 
     private JLabel createStyledLabel(String text) {
@@ -120,7 +123,7 @@ public class AddRecipePanel extends JPanel {
     }
 
     private JTextArea createStyledTextArea() {
-        JTextArea textArea = new JTextArea(5, 20); // Menyesuaikan ukuran area
+        JTextArea textArea = new JTextArea(10, 30); // Ukuran area yang lebih besar
         textArea.setFont(new Font("Arial", Font.PLAIN, 16));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -145,8 +148,7 @@ public class AddRecipePanel extends JPanel {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(hoverColor, 2),
-                BorderFactory.createEmptyBorder(10, 20, 10, 20)
-        ));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20)));
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setBackground(hoverColor);

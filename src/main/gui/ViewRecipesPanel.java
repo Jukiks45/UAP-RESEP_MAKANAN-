@@ -25,7 +25,52 @@ public class ViewRecipesPanel extends JPanel {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         add(titleLabel, BorderLayout.NORTH);
 
-        refreshGrid();
+        if (recipes.isEmpty()) {
+            // Jika tidak ada resep, tampilkan pesan "Tidak ada resep"
+            showNoRecipesMessage();
+        } else {
+            // Jika ada resep, tampilkan daftar resep
+            refreshGrid();
+        }
+    }
+
+    private void showNoRecipesMessage() {
+        JPanel noRecipesPanel = new JPanel();
+        noRecipesPanel.setLayout(new BorderLayout());
+        noRecipesPanel.setBackground(new Color(250, 250, 250));
+
+        JLabel noRecipesLabel = new JLabel("Tidak ada resep. Tambahkan resep baru!", SwingConstants.CENTER);
+        noRecipesLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        noRecipesLabel.setForeground(new Color(255, 0, 0));
+        noRecipesPanel.add(noRecipesLabel, BorderLayout.CENTER);
+
+        // Tombol Kembali
+        JButton backButton = new JButton("Kembali");
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBackground(new Color(0, 102, 204));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        backButton.addActionListener(e -> goBack());
+
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        backButtonPanel.setBackground(new Color(250, 250, 250));
+        backButtonPanel.add(backButton);
+        noRecipesPanel.add(backButtonPanel, BorderLayout.SOUTH);
+
+        removeAll(); // Clear current panel
+        add(noRecipesPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    private void goBack() {
+        // Tindakan untuk kembali ke panel sebelumnya
+        // Misalnya, kembali ke panel utama atau panel yang lebih tinggi
+        parentFrame.getContentPane().removeAll();
+        parentFrame.getContentPane().add(new MainMenuPanel(parentFrame));  // Misalnya MainPanel adalah panel utama Anda
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 
     private void refreshGrid() {
@@ -33,7 +78,7 @@ public class ViewRecipesPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(gridPanel);
         scrollPane.setBorder(null);
 
-        removeAll(); // Clear the current panel
+        removeAll(); // Clear current panel
         add(scrollPane, BorderLayout.CENTER);
         revalidate();
         repaint();
