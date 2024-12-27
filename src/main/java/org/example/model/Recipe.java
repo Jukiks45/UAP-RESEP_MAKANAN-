@@ -16,6 +16,9 @@ public class Recipe {
         this.imagePath = imagePath;
     }
 
+    public Recipe(String testRecipe, String ingredients, String steps, Object steps1) {
+    }
+
     // Getters and Setters
     public int getId() {
         return id;
