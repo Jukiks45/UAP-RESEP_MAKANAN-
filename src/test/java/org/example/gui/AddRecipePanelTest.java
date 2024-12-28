@@ -17,27 +17,26 @@ class AddRecipePanelTest {
     @SuppressWarnings("static-access")
     @Test
     void testSaveButtonDenganFieldKosong() {
-        // Arrange
-        JFrame parentFrame = mock(JFrame.class); // Mocking JFrame
-        List<Recipe> recipes = new ArrayList<>();
-        Runnable onBack = mock(Runnable.class);
-        AddRecipePanel addRecipePanel = new AddRecipePanel(parentFrame, recipes, onBack);
+        
+        JFrame parentFrame = mock(JFrame.class); 
+        List<Recipe> recipes = new ArrayList<>(); 
+        Runnable onBack = mock(Runnable.class); 
+        AddRecipePanel addRecipePanel = new AddRecipePanel(parentFrame, recipes, onBack); 
 
-        // Mock JOptionPane to avoid real dialog box
+        // Mock JOptionPane
         JOptionPane mockOptionPane = mock(JOptionPane.class);
 
         try {
-            // Set JOptionPane to use mock
+            // Mengatur JOptionPane menggunakan mock
             Field field = JOptionPane.class.getDeclaredField("pane");
             field.setAccessible(true);
             field.set(null, mockOptionPane);
 
-            // Act
-            // Get the save button and simulate a click on it
+            // Simulasi klik tombol save
             JButton saveButton = (JButton) addRecipePanel.getComponent(3);
             saveButton.doClick();
 
-            // Verify that the mockOptionPane's showMessageDialog was called with the correct message
+            // Memastikan dialog error ditampilkan
             verify(mockOptionPane, times(1)).showMessageDialog(
                     eq(parentFrame),
                     eq("Semua field harus diisi!"),
