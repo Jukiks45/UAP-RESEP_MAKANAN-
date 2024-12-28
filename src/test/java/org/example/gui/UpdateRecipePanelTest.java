@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unused")
 public class UpdateRecipePanelTest {
 
     private JFrame mockFrame;
@@ -21,42 +22,37 @@ public class UpdateRecipePanelTest {
 
     @BeforeEach
     public void setUp() {
-        mockFrame = mock(JFrame.class);  // Mock JFrame untuk dialog
+        // Mock objek dan data yang dibutuhkan untuk pengujian
+        mockFrame = mock(JFrame.class);
         recipes = new ArrayList<>();
         mockRecipe = new Recipe(1, "Test Recipe", "Test Ingredients", "Test Steps", null);
         recipes.add(mockRecipe);
         mockOnBack = mock(Runnable.class);
     }
 
+    @SuppressWarnings("static-access")
     @Test
     public void testFieldsCannotBeEmpty() {
-        // Membuat UpdateRecipePanel
+        // Membuat panel dan mencari field input
         UpdateRecipePanel panel = new UpdateRecipePanel(mockFrame, recipes, mockRecipe, mockOnBack);
+        JPanel formPanel = (JPanel) panel.getComponent(1);
+        JTextField nameField = (JTextField) formPanel.getComponent(1);
+        JTextArea ingredientsArea = (JTextArea) ((JScrollPane) formPanel.getComponent(3)).getViewport().getView();
+        JTextArea stepsArea = (JTextArea) ((JScrollPane) formPanel.getComponent(5)).getViewport().getView();
 
-        // Temukan komponen JTextField dan JTextArea dengan menelusuri komponen panel
-        JPanel formPanel = (JPanel) panel.getComponent(1);  // Panel form biasanya ada di komponen kedua
-        JTextField nameField = (JTextField) formPanel.getComponent(1);  // Baris pertama
-        JTextArea ingredientsArea = (JTextArea) ((JScrollPane) formPanel.getComponent(3)).getViewport().getView();  // Baris kedua
-        JTextArea stepsArea = (JTextArea) ((JScrollPane) formPanel.getComponent(5)).getViewport().getView();  // Baris ketiga
-
-        // Set semua field ke nilai kosong
+        // Kosongkan field dan tes validasi
         nameField.setText("");
         ingredientsArea.setText("");
         stepsArea.setText("");
-
-        // Mock JOptionPane untuk mencegah interaksi dengan frame asli
-        JOptionPane spyOptionPane = spy(JOptionPane.class);
-
-        // Panggil saveButton yang di-trigger untuk memicu aksi tombol
-        JButton saveButton = (JButton) ((JPanel) panel.getComponent(2)).getComponent(0);
         
-        // Cek validasi manual tanpa klik tombol
+        // Verifikasi bahwa pesan error ditampilkan jika ada field kosong
+        JOptionPane spyOptionPane = spy(JOptionPane.class);
+        JButton saveButton = (JButton) ((JPanel) panel.getComponent(2)).getComponent(0);
         String name = nameField.getText().trim();
         String ingredients = ingredientsArea.getText().trim();
         String steps = stepsArea.getText().trim();
 
         if (name.isEmpty() || ingredients.isEmpty() || steps.isEmpty()) {
-            // Verifikasi bahwa JOptionPane menunjukkan pesan kesalahan
             verify(spyOptionPane, times(1)).showMessageDialog(any(Component.class), eq("Semua field harus diisi!"), eq("Error"), eq(JOptionPane.ERROR_MESSAGE));
         }
     }
