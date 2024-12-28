@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("unused")
 public class FileHandlerTest {
 
     private static final String FILE_PATH = "recipes.txt";
