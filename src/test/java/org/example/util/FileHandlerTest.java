@@ -25,7 +25,7 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testLoadRecipes_ShouldLoadCorrectly() throws IOException {
+    public void testMemuatResep_HarusDimuatDenganBenar() throws IOException {
         // Menyimpan data ke dalam file dan memverifikasi pemuatan resep
         FileHandler.saveRecipes(Arrays.asList(
                 new Recipe(1, "nasigoreng", "nasi", "digoreng", "D:\\nasigoreng.jpg"),
@@ -35,7 +35,7 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testLoadRecipes_ShouldReturnEmptyListForEmptyFile() {
+    public void testMemuatResep_HarusMengembalikanListKosongUntukFileKosong() {
         try {
             // Mengosongkan file dan memverifikasi list kosong
             Files.write(Paths.get(FILE_PATH), new byte[0]);
@@ -47,7 +47,7 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testSaveRecipes_ShouldSaveCorrectly() throws IOException {
+    public void testMenyimpanResep_HarusMenyimpanDenganBenar() throws IOException {
         // Menyimpan resep dan memverifikasi data yang disimpan
         Recipe recipe = new Recipe(1, "soto", "daging, sayur", "Rebus daging dan sayur", "D:\\soto.jpg");
         FileHandler.saveRecipes(Arrays.asList(recipe));
@@ -56,7 +56,7 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testSaveRecipes_ShouldOverwriteFile() throws IOException {
+    public void testMenyimpanResep_HarusMenimpaFileDenganBenar() throws IOException {
         // Menyimpan resep baru yang akan menimpa data lama
         Recipe recipe1 = new Recipe(1, "soto", "daging, sayur", "Rebus daging dan sayur", "D:\\soto.jpg");
         FileHandler.saveRecipes(Arrays.asList(recipe1));

@@ -21,18 +21,18 @@ public class UpdateRecipePanelTest {
     private Runnable mockOnBack;
 
     @BeforeEach
-    public void setUp() {
+    public void siapkan() {
         // Mock objek dan data yang dibutuhkan untuk pengujian
         mockFrame = mock(JFrame.class);
         recipes = new ArrayList<>();
-        mockRecipe = new Recipe(1, "Test Recipe", "Test Ingredients", "Test Steps", null);
+        mockRecipe = new Recipe(1, "Resep Uji", "Bahan Uji", "Langkah Uji", null);
         recipes.add(mockRecipe);
         mockOnBack = mock(Runnable.class);
     }
 
     @SuppressWarnings("static-access")
     @Test
-    public void testFieldsCannotBeEmpty() {
+    public void ujiFieldTidakBolehKosong() {
         // Membuat panel dan mencari field input
         UpdateRecipePanel panel = new UpdateRecipePanel(mockFrame, recipes, mockRecipe, mockOnBack);
         JPanel formPanel = (JPanel) panel.getComponent(1);

@@ -17,10 +17,10 @@ class RecipeDetailPanelTest {
     private Runnable mockOnBack;  
 
     @BeforeEach
-    void setUp() {
+    void siapkan() {
         // Inisialisasi objek-objek yang digunakan dalam pengujian
         testFrame = new JFrame();
-        testRecipe = new Recipe("Test Recipe", "Ingredients", "Steps", null);
+        testRecipe = new Recipe("Resep Uji", "Bahan", "Langkah", null);
         recipeList = new ArrayList<>();
         recipeList.add(testRecipe);
 
@@ -28,28 +28,28 @@ class RecipeDetailPanelTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void bersihkan() {
         // Menutup JFrame setelah setiap pengujian selesai
         testFrame.dispose();
     }
 
     @Test
-    void testPanelInitialization() {
+    void ujiInisialisasiPanel() {
         // Menguji apakah panel diinisialisasi dengan benar
         RecipeDetailPanel panel = new RecipeDetailPanel(testFrame, recipeList, testRecipe, mockOnBack);
 
         // Memeriksa apakah label judul panel sesuai dengan nama resep
         JLabel titleLabel = (JLabel) panel.getComponent(0);
-        assertEquals("Detail Resep: Test Recipe", titleLabel.getText(), "Title label should display recipe name.");
+        assertEquals("Detail Resep: Resep Uji", titleLabel.getText(), "Label judul harus menampilkan nama resep.");
 
         // Memeriksa apakah panel tombol ada dan memiliki tiga tombol
         JPanel buttonPanel = (JPanel) panel.getComponent(2);
-        assertNotNull(buttonPanel, "Button panel should exist.");
-        assertEquals(3, buttonPanel.getComponentCount(), "Button panel should contain three buttons.");
+        assertNotNull(buttonPanel, "Panel tombol harus ada.");
+        assertEquals(3, buttonPanel.getComponentCount(), "Panel tombol harus berisi tiga tombol.");
     }
 
     @Test
-    void testDeleteButtonAction() {
+    void ujiTindakanTombolHapus() {
         // Menguji apakah tombol hapus berfungsi dengan benar
         RecipeDetailPanel panel = new RecipeDetailPanel(testFrame, recipeList, testRecipe, mockOnBack);
 
@@ -58,11 +58,11 @@ class RecipeDetailPanelTest {
         deleteButton.doClick();
 
         // Memeriksa apakah resep telah dihapus dari daftar
-        assertFalse(recipeList.contains(testRecipe), "Recipe should be removed from the list.");
+        assertFalse(recipeList.contains(testRecipe), "Resep harus dihapus dari daftar.");
     }
 
     @Test
-    void testBackButtonAction() {
+    void ujiTindakanTombolKembali() {
         // Menguji apakah tombol kembali berfungsi dengan benar
         RecipeDetailPanel panel = new RecipeDetailPanel(testFrame, recipeList, testRecipe, mockOnBack);
 

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RecipeTest {
 
     @Test
-    public void testRecipeCreation() {
+    public void testPembuatanRecipe() {
         // Membuat objek Recipe untuk pengujian
         Recipe recipe = new Recipe(1, "Nasi Goreng", "Nasi, Bumbu", "Masak nasi dan bumbu", "nasi.jpg");
         
