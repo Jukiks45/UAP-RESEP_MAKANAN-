@@ -50,7 +50,7 @@ public class AddRecipePanel extends JPanel {
 
         add(formPanel, BorderLayout.CENTER);
 
-        // Image selection and preview
+        // Pemilihan Gambar dan Preview
         JLabel imageLabel = createStyledLabel("Gambar Resep:");
         JButton imageButton = new JButton("Pilih Gambar");
         JLabel imagePathLabel = new JLabel("Belum ada gambar");
@@ -66,7 +66,6 @@ public class AddRecipePanel extends JPanel {
                     String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
                     imagePathLabel.setText(selectedPath);
 
-                    // Set image preview
                     ImageIcon icon = new ImageIcon(selectedPath);
                     Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                     imagePreview.setIcon(new ImageIcon(scaledImage));

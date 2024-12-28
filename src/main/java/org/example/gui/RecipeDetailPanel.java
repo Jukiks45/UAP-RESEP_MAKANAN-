@@ -28,7 +28,7 @@ public class RecipeDetailPanel extends JPanel {
             JPanel contentPanel = new JPanel(new BorderLayout());
             contentPanel.setBackground(new Color(250, 250, 250));
 
-            // Add image if available
+            // Menambah gambar jika ada
             if (recipe.getImagePath() != null) {
                 JLabel imageLabel = createImageLabel(recipe.getImagePath());
                 if (imageLabel != null) {
@@ -82,7 +82,7 @@ public class RecipeDetailPanel extends JPanel {
             styleButton(backButton, new Color(0, 102, 204), new Color(0, 51, 102));
             backButton.addActionListener(e -> {
                 try {
-                    // Replace the current panel with ViewRecipesPanel
+                    // Mengubah panel sekarang dengan panel yang sebelumnya
                     parentFrame.getContentPane().removeAll();
                     parentFrame.getContentPane().add(new ViewRecipesPanel(parentFrame, recipes));
                     parentFrame.revalidate();

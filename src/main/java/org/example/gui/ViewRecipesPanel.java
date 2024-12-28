@@ -63,7 +63,7 @@ public class ViewRecipesPanel extends JPanel {
         add(backButtonPanel, BorderLayout.SOUTH);
     }
 
-    private JPanel showNoRecipesMessage() {
+    private JPanel showNoRecipesMessage() { //Mengeluarkan tulisan jika tidak ada resep
         JPanel noRecipesPanel = new JPanel();
         noRecipesPanel.setLayout(new BorderLayout());
         noRecipesPanel.setBackground(new Color(250, 250, 250));
@@ -110,7 +110,7 @@ public class ViewRecipesPanel extends JPanel {
         return gridPanel;
     }
 
-    private JPanel createRecipeCard(Recipe recipe) {
+    private JPanel createRecipeCard(Recipe recipe) { //membuat panel resep
         JPanel cardPanel = new JPanel(new BorderLayout());
         cardPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 204), 2));
         cardPanel.setBackground(Color.WHITE);
@@ -146,7 +146,7 @@ public class ViewRecipesPanel extends JPanel {
         return cardPanel;
     }
 
-    private void deleteRecipe(Recipe recipe) {
+    private void deleteRecipe(Recipe recipe) { //menghapus resep
         int confirmation = JOptionPane.showConfirmDialog(parentFrame, "Apakah Anda yakin ingin menghapus resep ini?",
                 "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
         if (confirmation == JOptionPane.YES_OPTION) {

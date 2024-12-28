@@ -22,26 +22,26 @@ public class UpdateRecipePanel extends JPanel {
             titleLabel.setBorder(new EmptyBorder(10, 0, 20, 0));
             add(titleLabel, BorderLayout.NORTH);
 
-            // Form Input
+            // Input
             JPanel formPanel = new JPanel(new GridBagLayout());
             formPanel.setBackground(new Color(250, 250, 250));
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(10, 10, 10, 10); // Margin between form elements
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
-            // Recipe Name
+            // Nama Recipe
             JLabel nameLabel = createStyledLabel("Nama Resep:");
             JTextField nameField = new JTextField(recipeToUpdate.getName());
             addFormElement(formPanel, nameLabel, nameField, gbc, 0);
 
-            // Ingredients
+            // Bahan-Bahan
             JLabel ingredientsLabel = createStyledLabel("Bahan-Bahan:");
             JTextArea ingredientsArea = createStyledTextArea();
             ingredientsArea.setText(recipeToUpdate.getIngredients());
             JScrollPane ingredientsScroll = new JScrollPane(ingredientsArea);
             addFormElement(formPanel, ingredientsLabel, ingredientsScroll, gbc, 1);
 
-            // Steps
+            // Langkah-Langkah
             JLabel stepsLabel = createStyledLabel("Langkah-Langkah:");
             JTextArea stepsArea = createStyledTextArea();
             stepsArea.setText(recipeToUpdate.getSteps());
@@ -50,7 +50,7 @@ public class UpdateRecipePanel extends JPanel {
 
             add(formPanel, BorderLayout.CENTER);
 
-            // Save and Back Buttons
+            // Tombol Save dan Kembali
             JPanel buttonPanel = new JPanel();
             buttonPanel.setBackground(new Color(250, 250, 250));
 

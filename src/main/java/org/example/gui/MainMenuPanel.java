@@ -28,7 +28,7 @@ public class MainMenuPanel extends JPanel {
             // this.recipes = List.of(); // Jika gagal, set daftar resep menjadi kosong
         }
 
-        // Set title of the application
+        // Judul Aplikasi
         parentFrame.setTitle("Aplikasi Resep Makanan");
 
         cardLayout = new CardLayout();
@@ -38,7 +38,7 @@ public class MainMenuPanel extends JPanel {
         JPanel mainMenuPanel = new JPanel(new GridBagLayout());
         mainMenuPanel.setBackground(Color.WHITE); // Background putih
 
-        // Add application title at the top
+        //  Setting Tulisan Applikasi
         JLabel titleLabel = new JLabel("Aplikasi Resep Makanan", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(new Color(0, 102, 51));
@@ -47,8 +47,8 @@ public class MainMenuPanel extends JPanel {
         gbc.insets = new Insets(20, 20, 20, 20); // Spasi antar elemen
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 1; // Center alignment with single column
-        gbc.anchor = GridBagConstraints.CENTER; // Align center both horizontally and vertically
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
         mainMenuPanel.add(titleLabel, gbc);
 
         JButton addRecipeButton = createStyledButton("Tambah Resep");
